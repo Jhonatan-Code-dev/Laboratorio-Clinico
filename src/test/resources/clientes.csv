@@ -1,0 +1,4 @@
+idCliente,dni,nombre,apellido,fec_nac,sexo,telefono,direccion
+1,87654321,Juan,Pérez,1990-05-15,M,987654321,Calle Ficticia 123
+2,12345678,María,Gómez,1985-03-22,F,987654322,Calle Ficticia 124
+3,11223344,Carlos,Martínez,1980-07-30,M,987654323,Calle Ficticia 125
