@@ -10,6 +10,41 @@ import java.util.logging.Logger;
 public class Monitoreo {
     private static final Logger logger = Logger.getLogger("utp.demo.formview");
 
+
+    public static void verificarUsoRAM() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("free -m").getInputStream()))) {
+            reader.readLine();
+            String[] ramInfo = reader.readLine().split("\\s+");
+            double totalRAM = Double.parseDouble(ramInfo[1]);
+            double usedRAM = Double.parseDouble(ramInfo[2]);
+            double availableRAM = Double.parseDouble(ramInfo[6]);
+            double usedPercentage = ((totalRAM - availableRAM) / totalRAM) * 100;
+            if (usedPercentage > 90) {
+                String mensaje = "ALERTA: Uso de RAM supera el 90% (" + usedPercentage + "%). Usada: " + usedRAM + "MB, Disponible: " + availableRAM + "MB.";
+                logger.severe(mensaje);
+                enviarCorreo("Alerta de Uso de RAM", mensaje);
+            }
+        } catch (Exception e) {
+            logger.warning("Error al verificar el uso de RAM: " + e.getMessage());
+        }
+    }
+
+    public static void verificarServicioNginx() {
+        try {
+            Process proceso = Runtime.getRuntime().exec("systemctl is-active nginx");
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()))) {
+                String estado = reader.readLine().trim();
+                if (!"active".equalsIgnoreCase(estado)) {
+                    String mensaje = "No responde. Estado actual: " + estado;
+                    enviarCorreo("ALERTA: Servicio Nginx", mensaje);
+                }
+            }
+        } catch (Exception e) {
+            logger.warning("Error al verificar el servicio Nginx: " + e.getMessage());
+        }
+    }
+
+
     public static void verificarCargaCPU() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("uptime").getInputStream()))) {
             double cargaPromedio = Double.parseDouble(reader.readLine().split("load average:")[1].split(",")[0]);

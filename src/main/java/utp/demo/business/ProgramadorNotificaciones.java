@@ -25,6 +25,8 @@ public class ProgramadorNotificaciones implements ServletContextListener {
                 NotifiacionResultadosDAO.obtenerResultadosYRegistrarEnvio();
                 Monitoreo.verificarCargaCPU();
                 Monitoreo.verificarEspacioDisco();
+                Monitoreo.verificarUsoRAM();
+                Monitoreo.verificarServicioNginx();
             } catch (Exception e) {
                 logger.warning("ERROR EN LA CLASE BUSINESS-ProgramadorNotificaciones: " + e);
             }
