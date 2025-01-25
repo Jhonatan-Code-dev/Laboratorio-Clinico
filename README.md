@@ -49,7 +49,7 @@ El sistema incluye funcionalidades avanzadas para administrar roles, actualizar 
 
 ### Frontend
 - **HTML5, CSS3, JavaScript**
-- **Framework:** Bootstrap 5
+- **Framework:** Bootstrap
 
 ### Integraciones
 - **Correo:** Gmail API para notificaciones automáticas.
